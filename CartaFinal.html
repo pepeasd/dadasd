@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carta</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a0533 0%, #2d0a4e 50%, #1a0533 100%);
+      font-family: 'Georgia', serif;
+      padding: 32px 16px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 50%, rgba(255,255,255,0.2) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(520px, 92vw);
+      background: #fffdf7;
+      border-radius: 6px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.55);
+      overflow: hidden;
+      background-image: repeating-linear-gradient(
+        transparent, transparent 27px,
+        rgba(170,190,255,0.32) 27px, rgba(170,190,255,0.32) 28px
+      );
+      background-position: 0 80px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 60px;
+      top: 0; bottom: 0;
+      width: 1.5px;
+      background: rgba(255,100,100,0.38);
+      pointer-events: none;
+    }
+
+    .letter-body {
+      padding: 48px 40px 56px 40px;
+      color: #2c1810;
+      line-height: 27px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-body p {
+      font-size: 0.93rem;
+      margin-bottom: 27px;
+    }
+
+    .firma {
+      margin-top: 54px;
+      text-align: right;
+      font-style: italic;
+      color: #7b2d00;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="letter-body">
+
+      <p>Esto es una manera de dedicarte lo que siento por ti y lo mucho que te amo.</p>
+
+      <p>En vez de decirlo con palabras te hice esta página web para ti.</p>
+
+      <p>Como pareja vamos a pasar muchas cosas juntos, tanto malas como buenas. Eso nos hará que nuestra relación se fortalezca mucho y seguir adelante para que nuestra relación sea sana y muy unida.</p>
+
+      <p>Te hice esto con todo mi corazón y alma para dedicarte todo esto para ti y así estar siempre juntos.</p>
+
+      <p class="firma">Con todo mi amor ♥️</p>
+
+    </div>
+  </div>
+
+</body>
+</html>

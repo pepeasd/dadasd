@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuestra Línea de Tiempo</title>
+  <link rel="stylesheet" href="LineaDeTiempo.css">
+</head>
+<body>
+
+  <button class="btn-inicio" id="btnInicio" hidden> Inicio</button>
+  <section class="view" id="vistaResumen">
+    <h1>Nuestra Línea de Tiempo</h1>
+    <p class="subtitulo">Cada momento que hemos vivido juntos, guardado para siempre.</p>
+
+    <div class="timeline-track" id="timelineTrack">
+      <!-- Los nodos se generan automáticamente con JS a partir de "capitulos" -->
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-nav" id="btnSiguiente">Siguiente →</button>
+    </div>
+  </section>
+  <section class="view" id="vistaDetalle" hidden>
+    <p class="progreso" id="progreso"></p>
+
+    <div class="chapter-card">
+      <p class="chapter-date" id="chapterDate"></p>
+      <h2 class="chapter-title" id="chapterTitle"></h2>
+      <p class="chapter-text" id="chapterText"></p>
+      <div class="chapter-images" id="chapterImages"></div>
+    </div>
+
+    <nav class="detail-nav">
+      <button class="btn-nav" id="btnRegresar">← Regresar</button>
+      <button class="btn-nav" id="btnContinuar">Continuar →</button>
+    </nav>
+  </section>
+
+  <script>
+    const capitulos = [
+      {
+        fecha: "Capítulo 1",
+        titulo: "Nuestras primeras interacciones",
+        texto: "Siempre recuerdo los primeros momentos en que interactuamos y ver lo que somos hoy en día.",
+        images: ["Cap1-Img1.png", "Cap1-Img2.png", "Cap1-Img3.png"]
+      },
+      {
+        fecha: "Capítulo 2",
+        titulo: "Nuestros momentos juntos",
+        texto: "Éramos personas desconocidas, pero con un destino que era estar juntas, ya sea en las malas o en las buenas.",
+        images: ["Cap2-Img1.png", "Cap2-Img2.png", "Cap2-Img3.png"]
+      },
+      {
+        fecha: "Capítulo 3",
+        titulo: "Tardes, noches y madrugadas",
+        texto: "Esas tardes, noches y madrugadas siempre disfruto estar a tu lado, ya sea jugando, hablando o incluso viendo una serie y escuchando música juntos. Siempre me haces feliz, mi niña.",
+        images: ["Cap3-Img1.png", "Cap3-Img2.png", "Cap3-Img3.png"]
+      },
+      {
+        fecha: "Capítulo 4",
+        titulo: "Mi zona segura",
+        texto: "Siempre me gusta estar contigo, aunque no lo parezca. Aunque casi siempre no lo exprese, eres mi zona segura y disfruto estar a tu lado. Siempre eres mi luz que ilumina mi camino.",
+        images: ["Cap4-Img1.png", "Cap4-Img2.png", "Cap4-Img3.png"]
+      },
+      {
+        fecha: "10/05/2026",
+        titulo: "El día que comenzó todo",
+        texto: "El día que empezamos fue hermoso. Lo recuerdo como si fuera ayer; desde ese momento, nuestros destinos se juntaron.",
+        images: ["Cap5-Img1.png", "Cap5-Img2.png"]
+      },
+      {
+        fecha: "Capítulo 6",
+        titulo: "Recuerdos guardados en el corazón",
+        texto: "Nuestros momentos juntos siempre han sido hermosos, y los llevo guardados en mi mente y en mi corazón. Siempre recordaré cuando hacíamos match y todos los momentos tan bonitos que hemos compartido. Seguiré disfrutando cada instante que nos quede por vivir juntos, porque cada recuerdo a tu lado vale la pena. Como en todo en la vida, tendremos altibajos y también momentos de felicidad, pero mientras estemos juntos, sé que podremos superar cualquier cosa.",
+        images: ["Cap6-Img1.jpg", "Cap6-Img2.jpg", "Cap6-Img3.jpg"]
+      },
+      {
+        fecha: "Capítulo 7",
+        titulo: "Lo mucho que te amo",
+        texto: "No sabes lo mucho que te amo y te aprecio, y que siempre estaré para ti y a tu lado. Siempre me has hecho muy feliz desde el momento en que empezó nuestra historia.",
+        images: ["Cap7-Img1.jpg", "Cap7-Img2.jpg"]
+      },
+      {
+        fecha: "Capítulo 8",
+        titulo: "Esperando el momento",
+        texto: "Ando esperando el momento para poder darte un ramo de tus flores favoritas y estar a tu lado, guardando nuestros momentos hermosos.",
+        images: ["Cap8-Img1.jpg", "Cap8-Img2.jpg"]
+      },
+      {
+        fecha: "Capítulo 9",
+        titulo: "Nuestras canciones",
+        texto: "Nuestras canciones siempre podrán acompañarnos en cada momento de nuestras vidas. Escucharlas juntos, compartir ese instante y pasar tiempo a tu lado hace que cada melodía tenga un significado especial para nosotros. Cada canción se convierte en un recuerdo más de nuestra historia y en una forma de sentirnos cerca el uno del otro.Junto con las musicas que se irán uniendo a nuestro camino juntos 🎶",
+        songs: [
+          { titulo: "Chachachá — Joséan Log", imagen: "Cap9-Img1.jpeg", audio: "cancion1.mp3" },
+          { titulo: "Enamorado tuyo — El Cuarteto De Nos", imagen: "Cap9-Img3.jpeg", audio: "cancion5.mp3" },
+          { titulo: "Beso — Joséan Log", imagen: "Cap9-Img1.jpeg", audio: "cancion3.mp3" },
+          { titulo: "Frances Limón — Los Enanitos Verdes", imagen: "Cap9-Img4.jpeg", audio: "cancion6.mp3" },
+          { titulo: "One And Only Love (feat. Natalia Lafourcade)", imagen: "Cap9-Img2.jpeg", audio: "cancion4.mp3" },
+          { titulo: "Doma — Joséan Log", imagen: "Cap9-Img1.jpeg", audio: "cancion2.mp3" }
+        ]
+      },
+      {
+        fecha: "Capítulo 10",
+        titulo: "Películas y series juntos",
+        texto: "Estar cada momento contigo viendo películas y series siempre es mi parte favorita, pues es uno de los momentos donde nuestra cercanía estuvo palpable y disfrutaste del ambiente que tuvimos juntos, a solas. Estar contigo siempre es bello. Junto con nuestras pelis/serias favoritas que se sumaran a nuestro camino juntos. 🎬",
+        images: ["Cap10-Img1.jpg", "Cap10-Img2.jpg", "Cap10-Img3.jpg", "Cap10-Img4.jpg"]
+      },
+      {
+        fecha: "Capítulo 11",
+        titulo: "El regalo más hermoso",
+        texto: "Y el regalo más hermoso que me has dado lo sigo usando, porque realmente viene de una persona especial que me lo regaló. Aparte de que es mi skin favorita, viene de corazón el regalo.",
+        images: ["Cap11-Img1.jpg.png"]
+      },
+      {
+        fecha: "Capítulo 12",
+        titulo: "Lo que siento por ti",
+        texto: "Y con todo esto me gustaría expresarte lo que siento por ti, lo valiosa que eres para mí y lo mucho que significan todos estos momentos tan bonitos que hemos vivido juntos. Quiero que siempre recuerdes que estoy para ti, así como espero poder estar a tu lado en cada etapa de nuestras vidas. Habrá días más fáciles y otras más complicadas, momentos en los que las circunstancias nos pondrán a prueba o donde no siempre podamos demostrar todo lo que sentimos de la manera que quisiéramos; Pero eso nunca cambiará el amor, cariño y importancia que tienes para mí. Puesto a que eres una de las personas más importantes de mi vida, por lo que deseo con todo mi corazón que nuestro destino siga siendo estar entrelazados. Hay muchas cosas que siento por ti, tantas que a veces las palabras me no alcanzan para demostralo, así que hice todo esto pensando en ti, con todo mi cariño. ❤️",
+        images: ["Cap12-Img1.png"]
+      }
+    ];
+    const vistaResumen  = document.getElementById('vistaResumen');
+    const vistaDetalle  = document.getElementById('vistaDetalle');
+    const timelineTrack = document.getElementById('timelineTrack');
+    const btnSiguiente  = document.getElementById('btnSiguiente');
+    const btnRegresar   = document.getElementById('btnRegresar');
+    const btnContinuar  = document.getElementById('btnContinuar');
+    const btnInicio     = document.getElementById('btnInicio');
+
+    // Construye el resumen (nodos) a partir de "capitulos"
+    capitulos.forEach(cap => {
+      const nodo = document.createElement('div');
+      nodo.className = 'timeline-node';
+      nodo.innerHTML = `
+        <span class="node-fecha">${cap.fecha}</span>
+        <p class="node-titulo">${cap.titulo}</p>
+      `;
+      timelineTrack.appendChild(nodo);
+    });
+
+    // Historial de navegación: guarda cada estado visitado en orden.
+    // { tipo: 'resumen' } | { tipo: 'detalle', indice: N }
+    let historial = [{ tipo: 'resumen' }];
+    let posicion = 0;
+
+    function irA(estado) {
+      // Si se navega hacia adelante desde un punto intermedio, se recorta el resto
+      historial = historial.slice(0, posicion + 1);
+      historial.push(estado);
+      posicion++;
+      render();
+    }
+
+    function regresar() {
+      if (posicion === 0) return;
+      posicion--;
+      render();
+    }
+
+    function render() {
+      const estado = historial[posicion];
+
+      if (estado.tipo === 'resumen') {
+        detenerCancionActiva();
+        vistaResumen.hidden = false;
+        vistaDetalle.hidden = true;
+        btnInicio.hidden = true;
+      } else {
+        vistaResumen.hidden = true;
+        vistaDetalle.hidden = false;
+        btnInicio.hidden = false;
+        pintarCapitulo(estado.indice);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Controla que solo una canción se reproduzca a la vez
+    let audioActivo = null;
+    let botonActivo = null;
+
+    function alternarCancion(audio, boton) {
+      if (audioActivo && audioActivo !== audio) {
+        audioActivo.pause();
+        audioActivo.currentTime = 0;
+        if (botonActivo) { botonActivo.textContent = '▶'; botonActivo.classList.remove('reproduciendo'); }
+      }
+      if (audio.paused) {
+        audio.play().catch(() => { /* aún no hay archivo de audio asignado */ });
+        boton.textContent = '⏸';
+        boton.classList.add('reproduciendo');
+        audioActivo = audio;
+        botonActivo = boton;
+      } else {
+        audio.pause();
+        boton.textContent = '▶';
+        boton.classList.remove('reproduciendo');
+        audioActivo = null;
+        botonActivo = null;
+      }
+    }
+
+    function detenerCancionActiva() {
+      if (audioActivo) { audioActivo.pause(); audioActivo.currentTime = 0; }
+      if (botonActivo) { botonActivo.textContent = '▶'; botonActivo.classList.remove('reproduciendo'); }
+      audioActivo = null;
+      botonActivo = null;
+    }
+
+    function pintarCapitulo(i) {
+      const cap = capitulos[i];
+
+      detenerCancionActiva();
+
+      document.getElementById('progreso').textContent = `Capítulo ${i + 1} de ${capitulos.length}`;
+      document.getElementById('chapterDate').textContent = cap.fecha;
+      document.getElementById('chapterTitle').textContent = cap.titulo;
+      document.getElementById('chapterText').textContent = cap.texto;
+
+      const contenedor = document.getElementById('chapterImages');
+      contenedor.innerHTML = '';
+
+      if (cap.songs) {
+        contenedor.classList.add('songs-grid');
+
+        cap.songs.forEach((song) => {
+          const card = document.createElement('div');
+          card.className = 'song-card';
+
+          const slot = document.createElement('div');
+          slot.className = 'img-slot';
+          if (song.imagen) {
+            const img = document.createElement('img');
+            img.src = song.imagen;
+            img.alt = song.titulo;
+            slot.appendChild(img);
+          }
+          card.appendChild(slot);
+
+          const titulo = document.createElement('p');
+          titulo.className = 'song-titulo';
+          titulo.textContent = song.titulo;
+          card.appendChild(titulo);
+
+          const audio = document.createElement('audio');
+          if (song.audio) audio.src = song.audio;
+          audio.addEventListener('ended', () => detenerCancionActiva());
+          card.appendChild(audio);
+
+          const btnPlay = document.createElement('button');
+          btnPlay.className = 'btn-play';
+          btnPlay.type = 'button';
+          btnPlay.textContent = '▶';
+          btnPlay.title = `Reproducir ${song.titulo}`;
+          btnPlay.addEventListener('click', () => alternarCancion(audio, btnPlay));
+          card.appendChild(btnPlay);
+
+          contenedor.appendChild(card);
+        });
+      } else {
+        contenedor.classList.remove('songs-grid');
+        cap.images.forEach((src) => {
+          const slot = document.createElement('div');
+          slot.className = 'img-slot';
+          if (src) {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = cap.titulo;
+            slot.appendChild(img);
+          }
+          contenedor.appendChild(slot);
+        });
+      }
+
+      // Botón "Regresar": deshabilitado solo si no hay nada antes en el historial
+      btnRegresar.disabled = (posicion === 0);
+
+      // Último capítulo: el botón "Continuar" cierra el ciclo volviendo al resumen
+      if (i === capitulos.length - 1) {
+        btnContinuar.textContent = 'Continuar con el Final →';
+        btnContinuar.dataset.fin = 'true';
+      } else {
+        btnContinuar.textContent = 'Continuar →';
+        btnContinuar.dataset.fin = 'false';
+      }
+    }
+
+    btnSiguiente.addEventListener('click', () => irA({ tipo: 'detalle', indice: 0 }));
+
+    btnRegresar.addEventListener('click', regresar);
+
+    btnContinuar.addEventListener('click', () => {
+      const estado = historial[posicion];
+      if (btnContinuar.dataset.fin === 'true') {
+        window.location.href = 'Carta.html';
+      } else {
+        irA({ tipo: 'detalle', indice: estado.indice + 1 });
+      }
+    });
+
+
+    btnInicio.addEventListener('click', () => irA({ tipo: 'resumen' }));
+
+    render();
+  </script>
+</body>
+</html>
